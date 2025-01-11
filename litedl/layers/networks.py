@@ -124,4 +124,4 @@ class Affine(Layer):
         Returns:
             str: Affine()
         """
-        return f'{self.__class__.__name__}()'
+        return f'{self.__class__.__name__}(input_size={self.input_size}, output_size={self.output_size})'
