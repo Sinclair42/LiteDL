@@ -1,5 +1,6 @@
 import numpy as np
 from litedl.core import Layer
+from litedl.core.function import softmax, cross_entropy_error
 
 
 class MSE(Layer):
@@ -75,5 +76,65 @@ class MSE(Layer):
 
         Returns:
             str: A string in the format "MSE()".
+        """
+        return f'{self.__class__.__name__}()'
+
+
+class SoftmaxWithLoss(Layer):
+    """
+    A layer that combines the softmax activation function with the cross-entropy loss.
+    This layer is typically used as the final layer in a classification neural network.
+
+    Attributes:
+        y (np.ndarray or None): The output probabilities from the softmax function.
+        t (np.ndarray or None): The ground truth labels.
+    """
+    def __init__(self):
+        """
+        Initializes the SoftmaxWithLoss layer.
+        """
+
+        super().__init__()
+        self.y = None
+        self.t = None
+
+    def forward(self, x: np.ndarray, t: np.ndarray):
+        """
+        Performs the forward pass by calculating the softmax probabilities and the cross-entropy loss.
+
+        Args:
+            x (np.ndarray): Input data (logits), of shape (batch_size, num_classes).
+            t (np.ndarray): Ground truth labels, of shape (batch_size, num_classes) or (batch_size,).
+
+        Returns:
+            float: The calculated cross-entropy loss.
+        """
+        self.t = t
+        self.y = softmax(x)
+        loss = cross_entropy_error(self.t, self.t)
+
+        return loss
+
+    def backward(self, dout=1.0):
+        """
+        Performs the backward pass, calculating the gradient of the loss with respect to the input.
+
+        Args:
+            dout (float): Upstream gradient (default is 1.0).
+
+        Returns:
+            np.ndarray: The gradient of the loss with respect to the input, of shape (batch_size, num_classes).
+        """
+        batch_size = self.t.shape[0]
+        dx = dout * (self.y - self.t) / batch_size
+
+        return dx
+
+    def __repr__(self):
+        """
+        Returns a string representation of the layer.
+
+        Returns:
+            str: A string in the format "SoftmaxWithLoss()".
         """
         return f'{self.__class__.__name__}()'
