@@ -111,7 +111,7 @@ class SoftmaxWithLoss(Layer):
         """
         self.t = t
         self.y = softmax(x)
-        loss = cross_entropy_error(self.t, self.t)
+        loss = cross_entropy_error(self.y, self.t)
 
         return loss
 
