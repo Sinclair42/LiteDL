@@ -1,1 +1,1 @@
-from .neural_networks import FeedForwardNeuralNetwork
+from .neural_networks import Sequential

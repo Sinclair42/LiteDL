@@ -1,9 +1,8 @@
-import pickle
 import numpy as np
-from litedl.core import Layer, Optimizer
+from litedl.core import Layer, Optimizer, BaseModel
 
 
-class FeedForwardNeuralNetwork:
+class Sequential(BaseModel):
     """
     A feed-forward neural network implementation.
 
@@ -18,6 +17,7 @@ class FeedForwardNeuralNetwork:
         """
         Initializes an empty neural network.
         """
+        super().__init__()
         self.layers = []
         self.loss_layers = None
 
@@ -107,32 +107,6 @@ class FeedForwardNeuralNetwork:
         for layer in self.layers:
             if layer.params is not None:
                 optimizer.update(layer.params, layer.grads)
-
-    @classmethod
-    def from_pickle(cls, path):
-        """
-        Loads a saved neural network from a pickle file.
-
-        Args:
-            path (str): Path to the pickle file.
-
-        Returns:
-            FeedForwardNeuralNetwork: The loaded neural network.
-        """
-        with open(path, "rb") as f:
-            data = pickle.load(f)
-
-            return data
-
-    def to_pickle(self, path):
-        """
-        Saves the neural network to a pickle file.
-
-        Args:
-            path (str): Path to save the pickle file.
-        """
-        with open(path, "wb") as f:
-            pickle.dump(self, f)
 
     def __repr__(self):
         """
