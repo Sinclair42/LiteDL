@@ -70,9 +70,10 @@ def get_batches(features: np.ndarray, batch_size: int):
          [7]
          [8]]
     """
+    index = np.random.permutation(features.shape[0])
     batche_data = []
 
     for i in range(0, features.shape[0]//batch_size):
-        batche_data.append(features[i * batch_size:(i + 1) * batch_size])
+        batche_data.append(features[index[i * batch_size:(i + 1) * batch_size], :])
 
     return batche_data

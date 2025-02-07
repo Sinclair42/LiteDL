@@ -32,7 +32,7 @@ class Affine(Layer):
         super().__init__()
         if params is None:
             self.params = {
-                'W': np.random.randn(self.input_size, self.output_size),
+                'W': np.random.randn(self.input_size, self.output_size) * 0.01,
                 'b': np.random.randn(self.output_size),
             }
         else:

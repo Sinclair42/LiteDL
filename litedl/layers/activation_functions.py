@@ -101,8 +101,8 @@ class ReLU(Layer):
         Returns:
             np.ndarray: Gradient of the loss with respect to the input of the layer.
         """
-        dout[self.mask] = 0
-        dx = dout
+        dx = dout.copy()
+        dx[self.mask] = 0
 
         return dx
 
